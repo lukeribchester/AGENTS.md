@@ -30,25 +30,45 @@ Working principles govern how agents should decide whether to make changes.
 
 Working methodologies govern how agents should make changes.
 
-For non-trivial features, fixes, and refactors, agents SHOULD work in reviewable passes. Agents MAY combine or omit
-passes when the task is small, low-risk, or explicitly constrained, but MUST preserve incremental delivery and clear
-review boundaries.
+For non‑trivial tasks, agents MUST operate in reviewable passes. Combined or omitted passes are allowed only for small,
+low‑risk, or explicitly constrained tasks, and agents MUST preserve incremental delivery, clear review boundaries, and
+agreed scope.
 
-1. Agents SHOULD begin with a tracer bullet pass;
-    - implement the smallest end-to-end working path that proves the approach;
-    - avoid polish, broad abstraction, and optional hardening in this pass;
-    - stop after the pass, summarize the result, and ask whether to continue.
+A pass is a bounded iteration toward a stated outcome. Before each pass, agents MUST state the chosen mode, scope,
+intended outcome, expected impact, and any deferred changes. On completion, agents MUST summarise what was changed,
+verified, and deferred, plus any risks or open questions, and MUST NOT proceed to another pass without explicit
+instruction.
 
-2. Agents SHOULD continue with one or more refinement passes;
-    - improve one coherent slice at a time;
-    - keep each slice working, reviewable, and bounded by the requested outcome;
-    - stop after each pass, summarize the result, and ask whether to continue.
+Tracer bullet passes validate direction by implementing the smallest end‑to‑end slice when a solution is uncertain or
+crosses boundaries. Elephant carpaccio passes slice work into small, valuable increments; each slice MUST leave the
+system working and closer to the requested outcome. Future slices are out of scope until agreed; agents MUST NOT add
+speculative features or abstractions.
 
-3. Agents SHOULD perform an error handling pass;
-    - address expected failure modes, validation, and edge cases within the requested scope;
-    - verify the relevant behavior before continuing.
+Each pass MUST use one of three modes:
 
-4. Agents MUST finish with a security review pass;
-    - review the implemented change for security regressions, unsafe inputs, trust-boundary violations, secret exposure,
-      and dependency risk;
-    - fix in-scope security issues or report them before considering the work complete.
+1. Feature mode emphasises additive delivery:
+    - implement the smallest useful slice of the requested behaviour;
+    - start with a tracer bullet when the solution shape is uncertain;
+    - proceed via small increments;
+    - use existing architecture unless changes are required for correctness;
+    - avoid speculative features and broad configuration.
+
+2. Fix mode emphasises underlying problems and security:
+    - identify and understand the failure before changing code;
+    - fix the root cause rather than symptoms;
+    - prefer the smallest correct change fitting the current design;
+    - include dedicated error handling when validation or external systems are involved;
+    - verify the behaviour is corrected before finishing;
+    - avoid unrelated refactoring unless required by the fix.
+
+3. Refactor mode emphasises structure and naming:
+    - preserve external behaviour unless change is required or requested;
+    - declare the structural intent of the pass before making changes;
+    - rename and reorganise code when names or boundaries hinder clarity or cohesion;
+    - update all affected references, tests, and documentation;
+    - avoid mixing unrelated cleanup.
+
+Agents SHOULD perform refinement passes to improve readability, naming, structure, tests, or integration after initial
+slices. Agents MUST finish each feature, fix, or refactor sequence with a security review pass, reviewing for unsafe
+inputs, trust‑boundary issues, secret exposure, and dependency risk, and MUST address in‑scope security issues before
+completion.

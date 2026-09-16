@@ -53,3 +53,19 @@ Working principles govern how agents should decide whether to make changes.
 - Agents SHOULD omit unnecessary bodies. When included, bodies SHOULD briefly explain why and MUST wrap at 80 characters.
 - Breaking changes MUST use `!` and a `BREAKING CHANGE:` footer explaining the incompatibility and migration.
 - Agents MUST NOT invent facts or references.
+
+## Tool Boundaries
+
+- Agents MUST NOT provision, modify, or destroy infrastructure, or deploy infrastructure or applications.
+- Terraform MUST be limited to read-only status and state inspection. Agents MUST NOT run `init`, `plan`, `apply`,
+  `destroy`, `refresh`, `import`, or state-modifying commands.
+- Agents MUST NOT run Google Cloud CLI commands, including `gcloud`, `gsutil`, or `bq`.
+- Agents MAY perform CRUD operations on Sanity content. Agents MUST NOT deploy Sanity applications or schemas,
+  or modify project or dataset configuration.
+- Agents MAY run Docker commands subject to the infrastructure restrictions above.
+  Agents MUST NOT publish or push images or other artifacts.
+- Agents MAY perform Git operations, including read-only remote access, subject to the existing Git instructions.
+  Agents MUST NOT push, change remote configuration, or modify remote repositories or their branches and tags.
+- These restrictions MUST apply equally to direct commands and equivalent actions through scripts, APIs, plugins,
+  or other tools.
+- Other tools MAY be used within the requested scope unless restricted elsewhere.

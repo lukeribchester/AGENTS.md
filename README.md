@@ -28,47 +28,28 @@ Working principles govern how agents should decide whether to make changes.
 
 # Working Methodologies
 
-Working methodologies govern how agents should make changes.
+## Git
 
-For non‑trivial tasks, agents MUST operate in reviewable passes. Combined or omitted passes are allowed only for small,
-low‑risk, or explicitly constrained tasks, and agents MUST preserve incremental delivery, clear review boundaries, and
-agreed scope.
+- Agents MUST work on the current branch, normally main, unless instructed otherwise.
+  Branches and worktrees MUST NOT be created unless requested.
+- Agents MUST commit only when explicitly requested. Approval to implement does not authorize committing.
+- When committing, agents SHOULD amend or squash clearly related recent unpushed commits toward the same goal.
+  Changes MUST remain separate when their relationship is uncertain.
+- Agents MUST obtain explicit approval before rewriting published commits locally.
+- Agents MUST NOT push or modify remote repositories through any tool.
+- Agents MUST preserve unrelated commits, edits, and partial staging.
+- Before rewriting history, agents MUST create a local recovery reference.
+  Afterward, agents MUST verify that the intended final file contents are preserved.
+- Agents MUST report the resulting commit hash, subject, and any commits consolidated.
 
-A pass is a bounded iteration toward a stated outcome. Before each pass, agents MUST state the chosen mode, scope,
-intended outcome, expected impact, and any deferred changes. On completion, agents MUST summarise what was changed,
-verified, and deferred, plus any risks or open questions, and MUST NOT proceed to another pass without explicit
-instruction.
+## Commit Messages
 
-Tracer bullet passes validate direction by implementing the smallest end‑to‑end slice when a solution is uncertain or
-crosses boundaries. Elephant carpaccio passes slice work into small, valuable increments; each slice MUST leave the
-system working and closer to the requested outcome. Future slices are out of scope until agreed; agents MUST NOT add
-speculative features or abstractions.
-
-Each pass MUST use one of three modes:
-
-1. Feature mode emphasises additive delivery:
-    - implement the smallest useful slice of the requested behaviour;
-    - start with a tracer bullet when the solution shape is uncertain;
-    - proceed via small increments;
-    - use existing architecture unless changes are required for correctness;
-    - avoid speculative features and broad configuration.
-
-2. Fix mode emphasises underlying problems and security:
-    - identify and understand the failure before changing code;
-    - fix the root cause rather than symptoms;
-    - prefer the smallest correct change fitting the current design;
-    - include dedicated error handling when validation or external systems are involved;
-    - verify the behaviour is corrected before finishing;
-    - avoid unrelated refactoring unless required by the fix.
-
-3. Refactor mode emphasises structure and naming:
-    - preserve external behaviour unless change is required or requested;
-    - declare the structural intent of the pass before making changes;
-    - rename and reorganise code when names or boundaries hinder clarity or cohesion;
-    - update all affected references, tests, and documentation;
-    - avoid mixing unrelated cleanup.
-
-Agents SHOULD perform refinement passes to improve readability, naming, structure, tests, or integration after initial
-slices. Agents MUST finish each feature, fix, or refactor sequence with a security review pass, reviewing for unsafe
-inputs, trust‑boundary issues, secret exposure, and dependency risk, and MUST address in‑scope security issues before
-completion.
+- Messages MUST follow Conventional Commits: `<type>[optional scope][!]: <description>`.
+- The entire header MUST NOT exceed 80 characters.
+- Headers MUST use a lowercase type, an imperative description, and no trailing period.
+  Agents SHOULD include a short scope when useful.
+- Agents MUST choose an appropriate type and MAY use `wip` for temporary checkpoints.
+- Messages MUST describe the actual committed change, or the aggregate change when squashing.
+- Agents SHOULD omit unnecessary bodies. When included, bodies SHOULD briefly explain why and MUST wrap at 80 characters.
+- Breaking changes MUST use `!` and a `BREAKING CHANGE:` footer explaining the incompatibility and migration.
+- Agents MUST NOT invent facts or references.

@@ -63,7 +63,7 @@ Working principles govern how agents should decide whether to make changes.
 
 ## Tool Boundaries
 
-- Agents MUST NOT provision, modify, or destroy infrastructure, or deploy infrastructure or applications.
+- Agents MUST NOT provision, modify, or destroy remote infrastructure, or deploy remote infrastructure or applications.
 - Terraform MUST be limited to read-only status and state inspection. Agents MUST NOT run `init`, `plan`, `apply`,
   `destroy`, `refresh`, `import`, or state-modifying commands.
 - Agents MUST NOT run Google Cloud CLI commands, including `gcloud`, `gsutil`, or `bq`.

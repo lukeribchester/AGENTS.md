@@ -53,6 +53,12 @@ Working principles govern how agents should decide whether to make changes.
 - Agents SHOULD omit unnecessary bodies. When included, bodies SHOULD briefly explain why and MUST wrap at 80 characters.
 - Breaking changes MUST use `!` and a `BREAKING CHANGE:` footer explaining the incompatibility and migration.
 - Agents MUST NOT invent facts or references.
+- AI-assisted commits MUST include `Assisted-by: <tool> (<model-id>)`,
+  for example `Assisted-by: Codex (gpt-6-astra)`.
+- Agents MUST use the tool's official name and the verified model identifier.
+  If the model is unknown, use `Assisted-by: <tool>` without parentheses.
+- Agents MUST preserve relevant assistance attribution when squashing.
+- `Signed-off-by` MUST identify the human committer, not an AI tool.
 
 ## Tool Boundaries
 

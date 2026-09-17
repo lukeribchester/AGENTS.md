@@ -58,6 +58,7 @@ Working principles govern how agents should decide whether to make changes.
 - Agents MUST use the tool's official name and the verified model identifier.
   If the model is unknown, use `Assisted-by: <tool>` without parentheses.
 - Agents MUST preserve relevant assistance attribution when squashing.
+- Agents MUST pass `--signoff` to every `git commit` command, including when using `--amend`.
 - `Signed-off-by` MUST identify the human committer, not an AI tool.
 
 ## Tool Boundaries
